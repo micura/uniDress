@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"
+	  xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layouts/header :: head"> </head>
+<body>
+	<div class="container">
+		<div th:include="layouts/header :: navbar" th:remove="tag"></div>
+		<div class="swiper-container navbar navbar-inverse">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide" style="background-image:url(/images/slider/1.png)"></div>
+			</div>
+			<div class="swiper-pagination"></div>
+			<script type="text/javascript" th:src="@{/js/slider.js}" src="js/slider.js"></script>
+		</div>
+	</div>
+
+	<div class="container fill">
+		<p class="display-4 text-center mt-4">Üdvözlünk <span sec:authentication="name">Vendég</span></p>
+
+		<p class="display-4 p-3 text-center">Kiemelt Kategóriák</p>
+		<div class="row">
+			<div class="col-lg-3 img-hover-zoom img-hover-zoom--quick-zoom mb-5" th:each="category : ${categories}">
+				<a th:href="@{/category/{id}(id=${category.categoryId})}">
+					<img th:src="@{/images/categories/{image}(image=${category.imageUrl})}">
+					<div class="overlay">
+						<div class="text" th:text="${category.categoryName}"></div>
+					</div>
+				</a>
+			</div>
+		<div>
+
+		<p class="display-4 text-center text-monospace">Miért válassz minket?</p>
+		<div class="row text-monospace">
+			<div class="col text-center">
+				<p>Garancia<p>
+				<img class="img-thumbnail" src="images/other/guarantee.jpg">
+				<p class="text-muted">Ha most rendelsz automatikusan 2 év garanciát biztosítuk minden termékünkre.</p>
+			</div>
+			<div class="col text-center">
+				<p>Ügyfélszolgálat<p>
+				<img class="img-thumbnail" src="images/other/customer_service.jpg">
+				<p class="text-muted">Hívd nonstop működő ügyfélszolgálatunkat.</p>
+			</div>
+			<div class="col text-center">
+				<p>Személyes átvétel<p>
+				<img class="img-thumbnail" src="images/other/personal_pick.jpg">
+				<p class="text-muted">Debrecenben azonnal átvehető!</p>
+			</div>
+			<div class="col text-center">
+				<p>Futárszolgálat<p>
+				<img class="img-thumbnail" src="images/other/luggage_service.jpg">
+				<p class="text-muted">Gyors és pontos futárszolgálat szállítja csomagod.</p>
+			</div>
+		</div>
+
+	</div>
+
+	<div th:replace="layouts/footer :: footer"></div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
+</body>
+</html>

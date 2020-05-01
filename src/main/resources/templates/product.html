@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="hu"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layouts/header :: head"> </head>
+<body>
+    <div th:replace="layouts/header :: navbar"></div>
+    <script type="text/javascript" th:src="@{/js/product.js}" src="js/product.js"></script>
+    <div class="container fill mt-5">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <img class="img-fluid" th:src="@{/images/products/{image}(image=${product.imageUrl})}"/>
+                </div>
+                <form class="col-lg-6" th:action="@{/buy}" th:object="${product}" method="GET">
+                    <input th:type="hidden" th:field="${product.productId}">
+                    <!-- Product Description -->
+                    <div class="product-description">
+                    <span>
+                        <a href=""></a>
+                    </span>
+                        <h1 th:text="${product.productName}"></h1>
+                        <p th:text="${product.description}"></p>
+                    </div>
+
+                    <!-- Product Size-->
+                    <div class="product-status">
+                        <label class="product-size" th:each="size : ${sizes}">
+                            <span th:text="${size.sizeName}"></span>
+                            <input type="radio" checked="checked" name="size" th:value="${size.sizeName}">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+
+                    <!-- Product Status -->
+                    <div class="product-status">
+                        <p th:text="${product.status}"></p>
+                    </div>
+
+                    <!-- Product Pricing -->
+                    <div class="product-price">
+                        <span th:text="${product.Price + ' Ft'}"></span>
+                    </div>
+
+                    <!-- Product Quantity -->
+                    <div class="quantity-input">
+                        <p>
+                            <span> Mennyiség: </span>
+                            <input type="number" value="1" min="1" name="qty"/>
+                        </p>
+                    </div>
+
+                    <!-- Product Cart Button -->
+                    <span sec:authorize="isAnonymous()">Jelentkezz be, hogy kosárba rakhasd a terméket.</span>
+                    <div sec:authorize="isAuthenticated()" class="form-inline navbar-text">
+                        <button class="btn btn-lg btn-primary" href="javascript:{}" onclick="document.getElementById('buy').submit(); return false;">Kosárba</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="layouts/footer :: footer"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layouts/header :: head"> </head>
+<body>
+<div th:replace="layouts/header :: navbar"></div>
+
+<div class="container fill">
+    <div class="container-fluid">
+        <div class="row mt-5">
+            <div class="col-lg-3 text-center">
+                <p class="h3 bg-light rounded">Kategóriák</p>
+                <div class="mb-2" th:each="category : ${categories}">
+                    <a th:href="@{/category/{id}(id=${category.categoryId})}">
+                        <div class="text-uppercase text-monospace text-dark" th:text="${category.categoryName}"></div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="row">
+                    <div class="col-md-3 text-center"  th:each="prod : ${products}">
+                        <a th:href="@{/product/{id}(id=${prod.productId})}">
+                            <img class="img-thumbnail" th:src="@{/images/products/{image}(image=${prod.imageUrl})}" style="height: 180px;"//>
+                            <h5 th:text="${prod.productName}"></h5>
+                            <h6 class="font-weight-light" th:text="${prod.Price  + ' Ft'}"></h6>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="layouts/footer :: footer"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
+</body>
+</html>

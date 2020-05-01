@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layouts/header :: head"> </head>
+<body>
+<div th:replace="layouts/header :: navbar"></div>
+
+<div class="container fill text-center" th:switch="${isActive}">
+    <div th:case="false" class="container-fluid cart-products text-center">
+        <h1 class="mt-5">A kosár tartalma üres</h1>
+    </div>
+
+    <form th:case="true" th:action="@{/pay}" method="POST" class="container-fluid cart-products text-center">
+        <h1 class="mt-5">Kosár tartalma</h1>
+        <div th:if="${param.success}" class="alert alert-success">A termék sikeresen a kosárba került.</div>
+        <div th:if="${param.delete}" class="alert alert-success">A termék sikeresen törölve a kosárból..</div>
+        <div class="row">
+            <div class="col-lg-2">#</div>
+            <div class="col-lg-3 font-weight-bold">Termék neve</div>
+            <div class="col-lg-2 font-weight-bold">Mennyiség</div>
+            <div class="col-lg-2 font-weight-bold">Egységár</div>
+            <div class="col-lg-2 font-weight-bold">Részösszeg</div>
+            <div class="col-lg-1"></div>
+        </div>
+
+        <div class="row align-items-center" th:each="item : ${items}" th:with="result = ${item.quantity * item.product.Price}">
+            <div class="col-lg-2">
+                <img class="img-thumbnail" th:src="@{/images/products/{image}(image=${item.product.imageUrl})}" style="width: 120px;"/>
+            </div>
+            <a class="col-lg-3" th:href="@{/product/{id}(id=${item.product.productId})}">
+                <div th:text="${item.product.productName + ' - ' + item.chosenSize}"></div>
+            </a>
+            <div class="col-lg-2" th:text="${item.quantity + ' db'}"></div>
+            <div class="col-lg-2" th:text="${item.product.Price + ' Ft'}"></div>
+            <div class="col-lg-2" th:text="${result  + ' Ft'}"></div>
+            <a class="col-lg-1" th:href="@{/cart/delete/{id}/{size}(id=${item.product.productId}, size=${item.chosenSize})}">x</a>
+        </div>
+
+        <div class="row justify-content-end">
+            <div class="col-lg-2 font-weight-bold">Összesen</div>
+            <div class="col-lg-2 font-weight-bold" th:text="${amount + ' Ft'}"></div>
+        </div>
+
+        <div class="row justify-content-end">
+            <button class="btn btn-lg btn-danger" href="javascript:{}" onclick="document.getElementById('pay').submit(); return false;">Fizetés</button>
+        </div>
+    </form>
+</div>
+
+<div th:replace="layouts/footer :: footer"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
+</body>
+</html>

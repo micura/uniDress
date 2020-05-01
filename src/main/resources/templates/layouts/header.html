@@ -1,0 +1,45 @@
+<head th:fragment="head">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>UniDress</title>
+    <link rel="stylesheet" href="/static/css/main.css" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" href="/static/css/main.css" th:href="@{/css/product.css}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css' />
+    <link href='https://fonts.googleapis.com/css?family=Exo' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
+    <script src="https://unpkg.com/swiper/js/swiper.js"></script>
+    <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+
+<div th:fragment="navbar" class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">UniDress</a>
+        </div>
+
+        <ul class="nav navbar-nav">
+            <li><a class="nav-link" href="/">Kezdőlap</a></li>
+            <li><a class="nav-link" href="/categories">Kategóriák</a></li>
+            <li><a class="nav-link" href="/products">Termékek</a></li>
+        </ul>
+
+        <div class="ml-auto">
+            <ul class="nav navbar-nav" sec:authorize="isAnonymous()">
+                <li><a class="nav-link" href="/login" th:src="@{/login}">Bejelentkezés</a></li>
+                <li><a class="nav-link" href="/registration" th:src="@{/registration}">Regisztráció</a></li>
+            </ul>
+
+            <form sec:authorize="isAuthenticated()" id="frmlogout" th:action="@{/logout}" method="post" class="form-inline navbar-text">
+                Üdvözlünk <a href="/profile">
+                    <span sec:authentication="name" href="/profile">Vendég</span>
+                </a> |
+                <a href="/cart">Kosár</a> |
+                <a href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Kijelentkezés</a>
+            </form>
+        </div>
+    </nav>
+</div>
